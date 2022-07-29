@@ -27,7 +27,6 @@ class WordService {
     }
 
     async delete(id) {
-        console.log(id)
         const word = await WordModel.findOne({_id: id})
 
         if ( !word ) throw ApiError.BadRequest('There is no word with such an ID')

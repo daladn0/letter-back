@@ -1,69 +1,57 @@
-const { validationResult } = require('express-validator')
-const ApiError = require('../exceptions/ApiError')
-const WordService = require('../services/Word.service')
+const { validationResult } = require("express-validator");
+const ApiError = require("../exceptions/ApiError");
+const WordService = require("../services/Word.service");
 
 class WordController {
-    async getAll(req, res, next) {
-        try {
-            const words = await WordService.getAll()
-            res.json(words)
-        } catch(err) {
-            next(err)
-        }
+  async getAll(req, res, next) {
+    try {
+      const words = await WordService.getAll();
+      res.json(words);
+    } catch (err) {
+      next(err);
     }
+  }
 
-    async create(req, res, next) {
-        try {
-            const errors = validationResult(req)
+  async create(req, res, next) {
+    try {
+      const { word = '', definition = '' } = req.body;
 
-            if ( !errors.isEmpty() ) {
-                throw ApiError.BadRequest('Word or Definition is not provided')
-            }
+      const wordData = await WordService.create(word, definition, req.user.id);
 
-            const { word, definition } = req.body
-
-            const wordData = await WordService.create(word, definition, req.user.id)
-
-            res.json(wordData)
-        } catch(err) {
-            next(err)
-        }
+      res.json(wordData);
+    } catch (err) {
+      next(err);
     }
+  }
 
-    async update(req, res, next) {
-        try {
-            const errors = validationResult(req)
+  async update(req, res, next) {
+    try {
 
-            if ( !errors.isEmpty() ) {
-                throw ApiError.BadRequest('Word or Definition is not provided')
-            }
+      const { id } = req.params;
+      const { word = '', definition = '' } = req.body;
 
-            const { id } = req.params
-            const { word, definition } = req.body
-
-            const wordData = await WordService.update(id, word, definition)
-            res.json(wordData)
-
-        } catch(err) {
-            next(err)
-        }
+      const wordData = await WordService.update(id, word, definition);
+      res.json(wordData);
+    } catch (err) {
+      next(err);
     }
+  }
 
-    async delete(req, res, next) {
-        try {
-            const errors = validationResult(req)
+  async delete(req, res, next) {
+    try {
+      const errors = validationResult(req);
 
-            if ( !errors.isEmpty() ) {
-                throw ApiError.BadRequest('ID is not provided')
-            }
+      if (!errors.isEmpty()) {
+        throw ApiError.BadRequest("ID is not provided");
+      }
 
-            await WordService.delete(req.params.id)
+      await WordService.delete(req.params.id);
 
-            res.sendStatus(200)
-        } catch(err) {
-            next(err)
-        }
+      res.sendStatus(200);
+    } catch (err) {
+      next(err);
     }
+  }
 }
 
-module.exports = new WordController()
+module.exports = new WordController();
