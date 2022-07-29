@@ -2,8 +2,8 @@ const ApiError = require('../exceptions/ApiError')
 const WordModel = require('../models/Word.model')
 
 class WordService {
-    async getAll() {
-        const words = await WordModel.find()
+    async getAll(query) {
+        const words = await WordModel.find().sort(query)
         return words
     }
 

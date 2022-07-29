@@ -5,7 +5,7 @@ const WordService = require("../services/Word.service");
 class WordController {
   async getAll(req, res, next) {
     try {
-      const words = await WordService.getAll();
+      const words = await WordService.getAll(req.query);
       res.json(words);
     } catch (err) {
       next(err);
