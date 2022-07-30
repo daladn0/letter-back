@@ -3,8 +3,26 @@ const WordModel = require('../models/Word.model')
 
 class WordService {
     async getAll(query) {
-        const words = await WordModel.find().sort(query)
-        return words
+        const page = parseInt(query.page) || 1
+        const limit = parseInt(query.limit) || 10
+        const offset = (page - 1) * limit
+
+        const totalCount = await WordModel.countDocuments().exec()
+
+        const sort = {}
+
+        if ( query.sortBy && query.orderBy ) {
+            sort[query.sortBy] = query.orderBy
+        } else {
+            sort.date = -1
+        }
+
+        const words = await WordModel.find().sort(sort).skip(offset).limit(limit)
+
+        return {
+            words,
+            totalCount
+        }
     }
 
     async create(word, definition, userId) {
