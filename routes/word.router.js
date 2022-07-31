@@ -6,6 +6,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const WordController = require("../controllers/Word.controller");
 
 router.get("/", authMiddleware, WordController.getAll);
+router.get("/csv", authMiddleware, WordController.exportCSV)
 router.post("/", authMiddleware, WordController.create);
 router.put(
   "/:id",
