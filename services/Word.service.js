@@ -99,7 +99,7 @@ class WordService {
       words.forEach( item => {
         const {word, definition, date} = new WordDTO(item)
 
-        tableBody.push([{text: `${iteration}`, border: [false, false, false, false], style: 'cell'}, {text: `${word || 'asdasda'}`, border: [false, false, false, false], style: 'cell'}, {text: `${definition || 'asdasd'}`, border: [false, false, false, false], style: 'cell'}, {text: `${date}`, border: [false, false, false, false], style: 'cell'}])
+        tableBody.push([{text: `${iteration}`, border: [false, false, false, false], style: 'cell'}, {text: `${word || '-'}`, border: [false, false, false, false], style: 'cell'}, {text: `${definition || '-'}`, border: [false, false, false, false], style: 'cell'}, {text: `${date}`, border: [false, false, false, false], style: 'cell'}])
       
         iteration++
       } )
