@@ -7,6 +7,7 @@ const WordController = require("../controllers/Word.controller");
 
 router.get("/", authMiddleware, WordController.getAll);
 router.get("/csv", authMiddleware, WordController.exportCSV)
+router.get("/pdf", authMiddleware, WordController.exportPDF)
 router.post("/", authMiddleware, WordController.create);
 router.put(
   "/:id",

@@ -14,7 +14,7 @@ class WordController {
 
   async create(req, res, next) {
     try {
-      const { word = '', definition = '' } = req.body;
+      const { word = "", definition = "" } = req.body;
 
       const wordData = await WordService.create(word, definition, req.user.id);
 
@@ -26,11 +26,15 @@ class WordController {
 
   async update(req, res, next) {
     try {
-
       const { id } = req.params;
-      const { word = '', definition = '' } = req.body;
+      const { word = "", definition = "" } = req.body;
 
-      const wordData = await WordService.update(id, word, definition, req.user.id);
+      const wordData = await WordService.update(
+        id,
+        word,
+        definition,
+        req.user.id
+      );
       res.json(wordData);
     } catch (err) {
       next(err);
@@ -55,11 +59,21 @@ class WordController {
 
   async exportCSV(req, res, next) {
     try {
-      const csv = await WordService.exportCSV(req.user.id)
-      
-      res.send(csv)
-    } catch(err) {
-      next(err)
+      const csv = await WordService.exportCSV(req.user.id);
+
+      res.send(csv);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async exportPDF(req, res, next) {
+    try {
+      const pdf = await WordService.exportPDF(req.user.id)
+
+      res.send(pdf)
+    } catch (err) {
+      next(err);
     }
   }
 }
