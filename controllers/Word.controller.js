@@ -69,7 +69,7 @@ class WordController {
 
   async exportPDF(req, res, next) {
     try {
-      const pdf = await WordService.exportPDF(req.user.id)
+      const pdf = await WordService.exportPDF(req.query, req.user.id)
 
       res.send(pdf)
     } catch (err) {

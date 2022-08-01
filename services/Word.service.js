@@ -76,15 +76,23 @@ class WordService {
     }
   }
 
-  async exportPDF(user) {
+  async exportPDF(query, user) {
     try {
       const tableBody = [
         [{text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}],
         [{text: '#', style: 'heading', border: [false, false, false, false]}, {text: 'Word/Phrase', style: 'heading', border: [false, false, false, false]}, {text: 'Definition/Translation', style: 'heading', border: [false, false, false, false]}, {text:'Date', style: 'heading', border: [false, false, false, false]}],
         [{text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}, {text: '', style: 'heading', border: [false, false, false, false]}],
       ]
+      
+      const sort = {}
 
-      const words = await WordModel.find({user})
+      if (query.sortBy && query.orderBy) {
+        sort[query.sortBy] = query.orderBy;
+      } else {
+        sort.date = -1;
+      }
+
+      const words = await WordModel.find({user}).sort(sort)
 
       let iteration = 1
 
